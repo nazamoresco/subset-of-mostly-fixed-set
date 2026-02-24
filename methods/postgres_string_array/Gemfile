@@ -1,0 +1,2 @@
+# PostgreSQL native string array
+# No extra gems needed - uses Rails built-in PostgreSQL array support

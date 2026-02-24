@@ -55,7 +55,12 @@ A single **base Rails app** (`base_app/`) serves as the foundation. The `benchma
     │   ├── operations.rb
     │   ├── migrations/
     │   └── models/
-    └── active_flag/
+    ├── active_flag/
+    │   ├── Gemfile
+    │   ├── operations.rb
+    │   ├── migrations/
+    │   └── models/
+    └── postgres_string_array/
         ├── Gemfile
         ├── operations.rb
         ├── migrations/
@@ -64,8 +69,9 @@ A single **base Rails app** (`base_app/`) serves as the foundation. The `benchma
 
 ## Methods
 
-1. **[Array Enum](methods/array_enum/)** - PostgreSQL array with `array_enum` gem
+1. **[Array Enum](methods/array_enum/)** - PostgreSQL array with `array_enum` gem (integer mapping)
 2. **[Active Flag](methods/active_flag/)** - Bitwise flags using `active_flag` gem
+3. **[PostgreSQL String Array](methods/postgres_string_array/)** - Native PostgreSQL string array with GIN index
 
 ## Getting Started
 
@@ -98,6 +104,9 @@ ruby benchmark.rb array_enum
 
 # Active Flag method
 ruby benchmark.rb active_flag
+
+# PostgreSQL String Array method
+ruby benchmark.rb postgres_string_array
 ```
 
 The script will:
