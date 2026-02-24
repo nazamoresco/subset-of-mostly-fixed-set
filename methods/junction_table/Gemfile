@@ -1,0 +1,2 @@
+# Junction table approach (normalized database schema)
+# No extra gems needed - uses standard ActiveRecord associations

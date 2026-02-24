@@ -13,6 +13,7 @@ class BenchmarkRunner
     @method_path = File.join(METHODS_PATH, method_name)
     @backup_gemfile = nil
     @backup_gemfile_lock = nil
+    @backup_seeds = nil
 
     validate_method!
   end
@@ -97,6 +98,9 @@ class BenchmarkRunner
 
     # Copy operations
     copy_operations
+
+    # Copy seeds.rb if method defines custom seeds
+    copy_seeds
   end
 
   def copy_operations
@@ -109,6 +113,16 @@ class BenchmarkRunner
     dst_file = File.join(operations_dst, "#{@method_name}.rb")
     FileUtils.cp(operations_file, dst_file)
     puts "  ✓ Copied operations: #{@method_name}.rb"
+  end
+
+  def copy_seeds
+    seeds_file = File.join(@method_path, 'seeds.rb')
+    return unless File.exist?(seeds_file)
+
+    seeds_dst = File.join(BASE_APP_PATH, 'db', 'seeds.rb')
+    @backup_seeds = File.exist?(seeds_dst) ? File.read(seeds_dst) : nil
+    FileUtils.cp(seeds_file, seeds_dst)
+    puts "  ✓ Copied custom seeds.rb"
   end
 
   def install_gems
@@ -136,7 +150,14 @@ class BenchmarkRunner
     puts "\n🌱 Seeding data..."
     require_relative 'base_app/config/environment'
 
-    # Clear existing data
+    # Load custom seeds if method defines them
+    custom_seeds_path = File.join(@method_path, 'seeds.rb')
+    if File.exist?(custom_seeds_path)
+      puts "  Loading custom seeds..."
+      load custom_seeds_path
+    end
+
+    # Clear existing users (but preserve colors for junction table)
     User.delete_all if defined?(User)
 
     # Create sample users with favorite colors using Operations module
@@ -237,6 +258,9 @@ class BenchmarkRunner
     # Remove copied operations
     remove_operations
 
+    # Restore original seeds.rb
+    restore_seeds
+
     # Note: Database cleanup happens at the start of the next run
   end
 
@@ -245,6 +269,17 @@ class BenchmarkRunner
     if File.exist?(operations_dst)
       FileUtils.rm_f(operations_dst)
       puts "  ✓ Removed operations: #{@method_name}.rb"
+    end
+  end
+
+  def restore_seeds
+    seeds_dst = File.join(BASE_APP_PATH, 'db', 'seeds.rb')
+    if @backup_seeds
+      File.write(seeds_dst, @backup_seeds)
+      puts "  ✓ Restored original seeds.rb"
+    elsif File.exist?(seeds_dst)
+      FileUtils.rm_f(seeds_dst)
+      puts "  ✓ Removed custom seeds.rb"
     end
   end
 
