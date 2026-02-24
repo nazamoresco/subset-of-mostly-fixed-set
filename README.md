@@ -55,7 +55,7 @@ A single **base Rails app** (`base_app/`) serves as the foundation. The `benchma
     │   ├── operations.rb
     │   ├── migrations/
     │   └── models/
-    └── flag_shih_tzu/
+    └── active_flag/
         ├── Gemfile
         ├── operations.rb
         ├── migrations/
@@ -65,7 +65,7 @@ A single **base Rails app** (`base_app/`) serves as the foundation. The `benchma
 ## Methods
 
 1. **[Array Enum](methods/array_enum/)** - PostgreSQL array with `array_enum` gem
-2. **[Flag Shih Tzu](methods/flag_shih_tzu/)** - Bitwise flags using `flag_shih_tzu` gem
+2. **[Active Flag](methods/active_flag/)** - Bitwise flags using `active_flag` gem
 
 ## Getting Started
 
@@ -96,8 +96,8 @@ Run benchmarks for a specific method:
 # Array Enum method
 ruby benchmark.rb array_enum
 
-# Flag Shih Tzu method
-ruby benchmark.rb flag_shih_tzu
+# Active Flag method
+ruby benchmark.rb active_flag
 ```
 
 The script will:

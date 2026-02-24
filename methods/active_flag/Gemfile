@@ -1,0 +1,3 @@
+# Store multiple flags in a single integer column using bitwise operations
+# https://github.com/kenn/active_flag
+gem "active_flag"

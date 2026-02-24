@@ -12,6 +12,7 @@ class BenchmarkRunner
     @method_name = method_name
     @method_path = File.join(METHODS_PATH, method_name)
     @backup_gemfile = nil
+    @backup_gemfile_lock = nil
 
     validate_method!
   end
@@ -58,9 +59,11 @@ class BenchmarkRunner
   def setup_method
     puts "\n📦 Setting up #{@method_name}..."
 
-    # Backup original Gemfile
+    # Backup original Gemfile and Gemfile.lock
     gemfile_path = File.join(BASE_APP_PATH, 'Gemfile')
+    gemfile_lock_path = File.join(BASE_APP_PATH, 'Gemfile.lock')
     @backup_gemfile = File.read(gemfile_path)
+    @backup_gemfile_lock = File.read(gemfile_lock_path) if File.exist?(gemfile_lock_path)
 
     # Add method gems to Gemfile
     method_gems = File.read(File.join(@method_path, 'Gemfile'))
@@ -195,6 +198,20 @@ class BenchmarkRunner
       gemfile_path = File.join(BASE_APP_PATH, 'Gemfile')
       File.write(gemfile_path, @backup_gemfile)
       puts "  ✓ Restored Gemfile"
+    end
+
+    # Restore original Gemfile.lock
+    if @backup_gemfile_lock
+      gemfile_lock_path = File.join(BASE_APP_PATH, 'Gemfile.lock')
+      File.write(gemfile_lock_path, @backup_gemfile_lock)
+      puts "  ✓ Restored Gemfile.lock"
+    end
+
+    # Remove schema.rb (generated during migrations)
+    schema_path = File.join(BASE_APP_PATH, 'db', 'schema.rb')
+    if File.exist?(schema_path)
+      FileUtils.rm_f(schema_path)
+      puts "  ✓ Removed schema.rb"
     end
 
     # Remove copied migrations
