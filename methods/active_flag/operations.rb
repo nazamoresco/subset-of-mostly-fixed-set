@@ -9,7 +9,7 @@ module Operations
   end
 
   def self.find_by_color(color)
-    User.favorite_colors(color).to_a
+    User.where_favorite_colors(color).to_a
   end
 
   def self.update_user_colors(user, colors)
@@ -23,6 +23,6 @@ module Operations
   end
 
   def self.count_by_color(color)
-    User.favorite_colors(color).count
+    User.where_favorite_colors(color).count
   end
 end
