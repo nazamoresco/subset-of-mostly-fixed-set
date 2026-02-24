@@ -75,8 +75,6 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
-    array_enum (1.6.0)
-      activemodel
     ast (2.4.3)
     base64 (0.3.0)
     bcrypt_pbkdf (1.1.2)
@@ -105,6 +103,7 @@ GEM
     erubi (1.13.1)
     et-orbi (1.4.0)
       tzinfo
+    flag_shih_tzu (0.3.23)
     fugit (1.12.1)
       et-orbi (~> 1.4)
       raabro (~> 1.4)
@@ -332,11 +331,11 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  array_enum
   bootsnap
   brakeman
   bundler-audit
   debug
+  flag_shih_tzu
   kamal
   pg (~> 1.1)
   puma (>= 5.0)

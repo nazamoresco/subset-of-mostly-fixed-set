@@ -22,8 +22,8 @@ class BenchmarkRunner
     puts "=" * 60
 
     setup_method
-    reset_and_migrate_database
     install_gems
+    reset_and_migrate_database
     load_operations
     seed_data
     run_benchmarks
@@ -137,16 +137,17 @@ class BenchmarkRunner
     User.delete_all if defined?(User)
 
     # Create sample users with favorite colors using Operations module
+    # Use subsets of COLORS constant
     users_data = [
-      { colors: %w[red blue green] },
-      { colors: %w[yellow purple orange pink] },
-      { colors: %w[cyan magenta lime teal indigo] },
-      { colors: %w[red yellow] },
-      { colors: %w[blue purple pink cyan] }
+      COLORS[0..2],      # red, green, blue
+      COLORS[3..6],      # yellow, purple, orange, pink
+      COLORS[7..11],     # cyan, magenta, lime, teal, indigo
+      [COLORS[0], COLORS[3]],  # red, yellow
+      COLORS[2..4] + [COLORS[7]]  # blue, purple, pink, cyan
     ]
 
-    users_data.each do |data|
-      Operations.create_user(data[:colors])
+    users_data.each do |colors|
+      Operations.create_user(colors)
     end
 
     puts "  ✓ Created #{User.count} users"
@@ -157,30 +158,33 @@ class BenchmarkRunner
     require 'benchmark'
 
     n = 1000
+    test_colors = [COLORS[0], COLORS[2]]  # red, blue
+    test_color = COLORS[0]  # red
+    update_colors = [COLORS[1], COLORS[3]]  # green, yellow
 
     Benchmark.bm(20) do |x|
       x.report("Create user:") do
         n.times do
-          Operations.create_user(%w[red blue])
+          Operations.create_user(test_colors)
         end
       end
 
       x.report("Find by color:") do
         n.times do
-          Operations.find_by_color('red')
+          Operations.find_by_color(test_color)
         end
       end
 
       x.report("Update colors:") do
         User.limit(100).each do |user|
-          Operations.update_user_colors(user, %w[green yellow])
+          Operations.update_user_colors(user, update_colors)
         end
       end
     end
 
     puts "\n📊 Database stats:"
     puts "  Total users: #{User.count}"
-    puts "  Users liking 'red': #{Operations.count_by_color('red')}"
+    puts "  Users liking '#{test_color}': #{Operations.count_by_color(test_color)}"
   end
 
   def restore_project_files

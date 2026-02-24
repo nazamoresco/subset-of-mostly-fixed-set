@@ -30,9 +30,10 @@ Each **User** has a set of **favorite colors** that is a subset of a mostly cons
 ## Implementation
 
 Each storage method is defined in the `methods/` folder with:
-- `gems.rb` - Gems to install on top of the base app
+- `Gemfile` - Gems to install on top of the base app
 - `migrations/` - Database migrations
 - `models/` - ActiveRecord models
+- `operations.rb` - Method-specific operations (create_user, find_by_color, etc.)
 
 A single **base Rails app** (`base_app/`) serves as the foundation. The `benchmark.rb` script applies each method's configuration, runs benchmarks, and cleans up.
 
@@ -49,8 +50,14 @@ A single **base Rails app** (`base_app/`) serves as the foundation. The `benchma
 │   ├── config/
 │   └── db/
 └── methods/           # Storage method configurations
-    └── array_enum/
-        ├── gems.rb
+    ├── array_enum/
+    │   ├── Gemfile
+    │   ├── operations.rb
+    │   ├── migrations/
+    │   └── models/
+    └── flag_shih_tzu/
+        ├── Gemfile
+        ├── operations.rb
         ├── migrations/
         └── models/
 ```
@@ -58,6 +65,7 @@ A single **base Rails app** (`base_app/`) serves as the foundation. The `benchma
 ## Methods
 
 1. **[Array Enum](methods/array_enum/)** - PostgreSQL array with `array_enum` gem
+2. **[Flag Shih Tzu](methods/flag_shih_tzu/)** - Bitwise flags using `flag_shih_tzu` gem
 
 ## Getting Started
 
@@ -85,7 +93,11 @@ A single **base Rails app** (`base_app/`) serves as the foundation. The `benchma
 Run benchmarks for a specific method:
 
 ```bash
+# Array Enum method
 ruby benchmark.rb array_enum
+
+# Flag Shih Tzu method
+ruby benchmark.rb flag_shih_tzu
 ```
 
 The script will:
@@ -103,22 +115,45 @@ To add a new storage method:
 1. Create a folder in `methods/`:
    ```
    methods/my_method/
-   ├── gems.rb
+   ├── Gemfile
+   ├── operations.rb
    ├── migrations/
    │   └── xxx_create_users.rb
    └── models/
        └── user.rb
    ```
 
-2. Define the gems in `gems.rb`:
+2. Define the gems in `Gemfile`:
    ```ruby
-   # methods/my_method/gems.rb
+   # methods/my_method/Gemfile
    gem "my_gem"
    ```
 
-3. Create migrations in `migrations/`:
+3. Implement operations in `operations.rb`:
    ```ruby
-   # methods/my_method/migrations/xxx_create_users.rb
+   # methods/my_method/operations.rb
+   module Operations
+     def self.create_user(colors)
+       # implementation
+     end
+
+     def self.find_by_color(color)
+       # implementation
+     end
+
+     def self.update_user_colors(user, colors)
+       # implementation
+     end
+
+     def self.count_by_color(color)
+       # implementation
+     end
+    end
+    ```
+
+4. Create migrations in `migrations/`:
+    ```ruby
+    # methods/my_method/migrations/xxx_create_users.rb
    class CreateUsers < ActiveRecord::Migration[8.1]
      def change
        create_table :users do |t|
@@ -126,21 +161,21 @@ To add a new storage method:
          t.timestamps
        end
      end
-   end
-   ```
+    end
+    ```
 
-4. Create models in `models/`:
-   ```ruby
-   # methods/my_method/models/user.rb
-   class User < ApplicationRecord
-     # your model code
-   end
-   ```
+5. Create models in `models/`:
+    ```ruby
+    # methods/my_method/models/user.rb
+    class User < ApplicationRecord
+      # your model code
+    end
+    ```
 
-5. Run the benchmark:
-   ```bash
-   ruby benchmark.rb my_method
-   ```
+6. Run the benchmark:
+    ```bash
+    ruby benchmark.rb my_method
+    ```
 
 ## Benchmarks
 
