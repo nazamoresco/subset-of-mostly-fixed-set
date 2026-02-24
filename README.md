@@ -204,3 +204,5 @@ Benchmarks measure:
 - **Update colors** - Time to update a user's favorite colors
 
 Results include database statistics (total users, etc.).
+
+See [RESULTS.md](RESULTS.md) for detailed benchmark results and leaderboard.
