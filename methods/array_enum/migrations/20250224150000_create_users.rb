@@ -3,7 +3,7 @@
 class CreateUsers < ActiveRecord::Migration[8.1]
   def change
     create_table :users do |t|
-      t.string :favorite_colors, array: true, default: []
+      t.integer :favorite_colors, array: true, null: false, default: []
 
       t.timestamps
     end
