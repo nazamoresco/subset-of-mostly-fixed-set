@@ -60,6 +60,12 @@ A single **base Rails app** (`base_app/`) serves as the foundation. The `benchma
     │   ├── operations.rb
     │   ├── migrations/
     │   └── models/
+    ├── junction_table/
+    │   ├── Gemfile
+    │   ├── operations.rb
+    │   ├── migrations/
+    │   ├── models/
+    │   └── seeds.rb
     └── postgres_string_array/
         ├── Gemfile
         ├── operations.rb
@@ -72,6 +78,7 @@ A single **base Rails app** (`base_app/`) serves as the foundation. The `benchma
 1. **[Array Enum](methods/array_enum/)** - PostgreSQL array with `array_enum` gem (integer mapping)
 2. **[Active Flag](methods/active_flag/)** - Bitwise flags using `active_flag` gem
 3. **[PostgreSQL String Array](methods/postgres_string_array/)** - Native PostgreSQL string array with GIN index
+4. **[Junction Table](methods/junction_table/)** - Many-to-many relationship with separate colors table
 
 ## Getting Started
 
@@ -104,6 +111,9 @@ ruby benchmark.rb array_enum
 
 # Active Flag method
 ruby benchmark.rb active_flag
+
+# Junction Table method
+ruby benchmark.rb junction_table
 
 # PostgreSQL String Array method
 ruby benchmark.rb postgres_string_array
