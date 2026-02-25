@@ -2,7 +2,7 @@
 
 module Operations
   def self.create_user(colors)
-    user = User.new
+    user = ::User.new
     COLORS.each { |color| user.send("#{color}=", false) }
     colors.each { |color| user.send("#{color}=", true) }
     user.save!
@@ -10,7 +10,7 @@ module Operations
   end
 
   def self.find_by_color(color)
-    User.send(color).to_a
+    ::User.send(color).to_a
   end
 
   def self.update_user_colors(user, colors)
@@ -20,6 +20,6 @@ module Operations
   end
 
   def self.count_by_color(color)
-    User.send(color).count
+    ::User.send(color).count
   end
 end
