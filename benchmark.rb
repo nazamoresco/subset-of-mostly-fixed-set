@@ -195,7 +195,8 @@ class BenchmarkRunner
 
       x.report("Find by color:") do
         n.times do
-          Operations.find_by_color(test_color)
+          users = Operations.find_by_color(test_color)
+          raise "incorrect result #{users.length}" if users.length != 1002
         end
       end
 
@@ -205,6 +206,9 @@ class BenchmarkRunner
         end
       end
     end
+
+    raise "Unexpected number of end user count: #{User.count}" if User.count != 1005
+    raise "Unexpected number of users liking '#{test_color}': #{Operations.count_by_color(test_color)}" if Operations.count_by_color(test_color) != 905
 
     puts "\n📊 Database stats:"
     puts "  Total users: #{User.count}"

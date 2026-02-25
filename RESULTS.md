@@ -3,7 +3,7 @@
 
 # Benchmark Results
 
-## Leaderboard (lower is better; ordered by read)
+## Leaderboard (lower is better; ordered by read; N=1000)
 
 | Name | Create User (s) | Find by Color (s) | Update Colors (s) |
 |------|------------------|-------------------|-------------------|
