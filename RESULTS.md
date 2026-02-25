@@ -7,9 +7,9 @@
 
 | Name | Create User (s) | Find by Color (s) | Update Colors (s) |
 |------|------------------|-------------------|-------------------|
-| active_flag (bitwise integer) | 11.23 | 2.82 | 0.02 |
 | bitfields (bitwise integer) | 6.94 | 11.14 | 0.55 |
 | bit_string (bitwise bit string) | 7.30 | 11.78 | 0.76 |
+| active_flag (bitwise integer) | 9.17 | 11.82 | 0.67 |
 | array_enum (integer array) | 6.96 | 12.07 | 0.32 |
 | jsonb_array (jsonb) | 7.38 | 12.83 | 0.59 |
 | postgres_string_array (string array) | 7.12 | 13.09 | 0.35 |
@@ -22,9 +22,10 @@
 
 | Operation | user | system | total | real |
 |-----------|------|--------|-------|------|
-| Create user | 5.59 | 0.87 | 6.46 | 11.23 |
-| Find by color | 1.16 | 0.26 | 1.42 | 2.82 |
-| Update colors | 0.02 | 0.00 | 0.02 | 0.02 |
+| Create user | 4.08 | 0.55 | 4.64 | 9.17 |
+| Find by color | 9.03 | 0.11 | 9.14 | 11.82 |
+| Update colors | 0.26 | 0.04 | 0.30 | 0.67 |
+
 
 ### array_enum (integer array)
 
