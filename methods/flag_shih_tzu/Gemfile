@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+# Store multiple flags in a single integer column using bitwise operations
+# https://github.com/galtzo-floss/flag_shih_tzu
+gem "flag_shih_tzu"
