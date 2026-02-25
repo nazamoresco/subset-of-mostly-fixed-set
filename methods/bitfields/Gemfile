@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+# Store multiple flags in a single integer column using bitwise operations
+# https://github.com/grosser/bitfields
+gem "bitfields"
